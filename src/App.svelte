@@ -3,8 +3,6 @@
 	import { COLORS, SIZES } from "./config"
 	import { get_tilings, type tiling } from "./tilings"
 
-	let cache: Record<string, Array<tiling>> = {}
-
 	let tilings: Array<tiling>
 	let names: Array<string>
 
