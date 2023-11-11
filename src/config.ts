@@ -13,9 +13,9 @@ export const COLORS = {
 	Z: "rgb(255, 0, 128)",
 } as Record<string, string>
 
-export const SIZES = {
-	3: "3 &times; 20",
-	4: "4 &times; 15",
-	5: "5 &times; 12",
-	6: "6 &times; 10",
-}
+export const SIZES = [
+	[3, 20],
+	[4, 15],
+	[5, 12],
+	[6, 10],
+]

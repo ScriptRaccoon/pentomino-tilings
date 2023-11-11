@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount } from "svelte"
 	import { COLORS, SIZES } from "./config"
+	import { get_tilings, type tiling } from "./tilings"
 
-	type coord = [number, number]
-	type tiling = Record<string, Array<coord>>
+	let cache: Record<string, Array<tiling>> = {}
 
 	let tilings: Array<tiling>
 	let names: Array<string>
@@ -11,27 +11,30 @@
 	let current_index = 0
 	$: current_tiling = tilings?.[current_index]
 
-	let selected_height = "3"
+	let selected_n = 3
 	let n = 3
 	let m = 20
 
 	let loading = false
 
 	async function init() {
-		loading = true
-		const new_n = parseInt(selected_height)
+		const new_n = selected_n
 		const new_m = Math.floor(60 / new_n)
-		const path = `/data/tilings-${new_n}-${new_m}.json`
-		const res = await fetch(path)
-		if (res.ok) {
-			tilings = (await res.json()) as Array<tiling>
+
+		loading = true
+		const new_tilings = await get_tilings(new_n, new_m)
+
+		if (new_tilings) {
+			tilings = new_tilings
 			current_index = 0
 			n = new_n
 			m = new_m
-			if (!names) names = Object.keys(tilings[0] ?? {})
 		} else {
 			window.alert("Could not retrieve the data at this moment")
 		}
+
+		if (!names) names = Object.keys(tilings[0] ?? {})
+
 		loading = false
 	}
 
@@ -88,18 +91,18 @@
 			<label for="size">Size</label>
 			<select
 				id="size"
-				bind:value={selected_height}
+				bind:value={selected_n}
 				on:change={init}
 				disabled={loading}
 			>
-				{#each Object.entries(SIZES) as [value, label]}
-					<option {value}>{@html label}</option>
+				{#each SIZES as [x, y]}
+					<option value={x}>{x} &times; {y}</option>
 				{/each}
 			</select>
 		</div>
 	</menu>
 
-	{#if current_tiling}
+	{#if names && current_tiling}
 		<h2 class="counter" aria-live="polite">
 			Tiling #{current_index + 1}
 		</h2>
