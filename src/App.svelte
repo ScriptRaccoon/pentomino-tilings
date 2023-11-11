@@ -108,5 +108,6 @@
 		top: calc(var(--y) * var(--u));
 		border: 1px solid gray;
 		position: absolute;
+		transition: 750ms ease;
 	}
 </style>
