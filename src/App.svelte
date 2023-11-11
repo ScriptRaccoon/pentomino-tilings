@@ -17,20 +17,18 @@
 
 	let loading = false
 
-	function update_size() {
-		n = parseInt(selected_height)
-		m = Math.floor(60 / n)
-		init()
-	}
-
 	async function init() {
 		loading = true
-		const path = `/data/tilings-${n}-${m}.json`
+		const new_n = parseInt(selected_height)
+		const new_m = Math.floor(60 / new_n)
+		const path = `/data/tilings-${new_n}-${new_m}.json`
 		const res = await fetch(path)
 		if (res.ok) {
 			tilings = (await res.json()) as Array<tiling>
-			names = Object.keys(tilings[0] ?? {})
 			current_index = 0
+			n = new_n
+			m = new_m
+			if (!names) names = Object.keys(tilings[0] ?? {})
 		} else {
 			window.alert("Could not retrieve the data at this moment")
 		}
@@ -64,11 +62,7 @@
 		Right
 	</button>
 	<label for="size">Size</label>
-	<select
-		id="size"
-		bind:value={selected_height}
-		on:change={update_size}
-	>
+	<select id="size" bind:value={selected_height} on:change={init}>
 		{#each Object.entries(SIZES) as [value, label]}
 			<option {value}>{@html label}</option>
 		{/each}
