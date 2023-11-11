@@ -19,7 +19,7 @@
 
 	async function init() {
 		const new_n = selected_n
-		const new_m = Math.floor(60 / new_n)
+		const new_m = new_n != 8 ? Math.floor(60 / new_n) : 8
 
 		loading = true
 		const new_tilings = await get_tilings(new_n, new_m)
