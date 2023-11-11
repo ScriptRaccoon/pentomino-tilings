@@ -58,6 +58,25 @@
 </header>
 
 <main>
+	{#if names && current_tiling}
+		<h2 class="counter" aria-live="polite">
+			Tiling #{current_index + 1} / {tilings.length}
+		</h2>
+		<div class="board" style:--n={n} style:--m={m}>
+			{#each names as name}
+				{#each { length: 5 } as _, index}
+					{@const [y, x] = current_tiling[name][index]}
+					<div
+						class="square"
+						style:--x={x}
+						style:--y={y}
+						style:--color={COLORS[name]}
+					/>
+				{/each}
+			{/each}
+		</div>
+	{/if}
+
 	<menu>
 		<div>
 			<button
@@ -100,25 +119,6 @@
 		</div>
 	</menu>
 
-	{#if names && current_tiling}
-		<h2 class="counter" aria-live="polite">
-			Tiling #{current_index + 1} / {tilings.length}
-		</h2>
-		<div class="board" style:--n={n} style:--m={m}>
-			{#each names as name}
-				{#each { length: 5 } as _, index}
-					{@const [y, x] = current_tiling[name][index]}
-					<div
-						class="cell"
-						style:--x={x}
-						style:--y={y}
-						style:--color={COLORS[name]}
-					/>
-				{/each}
-			{/each}
-		</div>
-	{/if}
-
 	{#if loading}
 		<div>Loading...</div>
 	{/if}
@@ -134,21 +134,22 @@
 	}
 
 	menu {
+		margin-block: 1rem;
 		display: flex;
-		align-items: center;
 		gap: 1.5rem;
+		flex-direction: row-reverse;
+		flex-wrap: wrap;
 	}
 
 	menu div {
 		display: flex;
-		align-items: center;
 		gap: 0.5rem;
 	}
 
 	.counter {
 		font-size: 1.25rem;
 		font-weight: initial;
-		margin-block: 1rem 0.5rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.board {
@@ -156,10 +157,9 @@
 		position: relative;
 		height: calc(var(--n) * var(--u));
 		width: calc(var(--m) * var(--u));
-		margin-block: 0.5rem;
 	}
 
-	.cell {
+	.square {
 		background-color: var(--color);
 		width: var(--u);
 		height: var(--u);
@@ -182,6 +182,9 @@
 	@media (min-width: 42rem) {
 		h1 {
 			font-size: 3rem;
+		}
+		menu {
+			flex-direction: row;
 		}
 	}
 </style>
