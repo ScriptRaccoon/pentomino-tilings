@@ -104,7 +104,7 @@
 
 	{#if names && current_tiling}
 		<h2 class="counter" aria-live="polite">
-			Tiling #{current_index + 1}
+			Tiling #{current_index + 1} / {tilings.length}
 		</h2>
 		<div class="board" style:--n={n} style:--m={m}>
 			{#each names as name}
