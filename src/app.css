@@ -5,9 +5,32 @@
 }
 
 body {
-	background: #000;
+	--bg: #111;
+	background: var(--bg);
 	color: #fff;
 	font-family: Arial, Helvetica, sans-serif;
 	line-height: 1.6;
-	padding: 1rem;
+	padding-inline: 1rem;
+}
+
+button {
+	background: none;
+	font-size: inherit;
+	color: inherit;
+	font-family: inherit;
+	border: none;
+	cursor: pointer;
+}
+
+.flipped {
+	transform: scaleX(-1);
+}
+
+select {
+	font-size: inherit;
+	font-family: inherit;
+	border: none;
+	cursor: pointer;
+	padding: 0.25rem;
+	border-radius: 0.25rem;
 }
