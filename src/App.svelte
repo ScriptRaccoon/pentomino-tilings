@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte"
-	import { COLORS } from "./config"
+	import { COLORS, SIZES } from "./config"
 
 	type coord = [number, number]
 	type tiling = Record<string, Array<coord>>
@@ -11,14 +11,14 @@
 	let current_index = 0
 	$: current_tiling = tilings?.[current_index]
 
-	let selection = "3"
+	let selected_height = "3"
 	let n = 3
 	let m = 20
 
 	let loading = false
 
-	function update_selection() {
-		n = parseInt(selection)
+	function update_size() {
+		n = parseInt(selected_height)
 		m = Math.floor(60 / n)
 		init()
 	}
@@ -66,13 +66,12 @@
 	<label for="size">Size</label>
 	<select
 		id="size"
-		bind:value={selection}
-		on:change={update_selection}
+		bind:value={selected_height}
+		on:change={update_size}
 	>
-		<option value="3">3 &times; 20</option>
-		<option value="4">4 &times; 15</option>
-		<option value="5">5 &times; 12</option>
-		<option value="6">6 &times; 10</option>
+		{#each Object.entries(SIZES) as [value, label]}
+			<option {value}>{@html label}</option>
+		{/each}
 	</select>
 </menu>
 
