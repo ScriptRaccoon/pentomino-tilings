@@ -38,20 +38,14 @@ def valid_shift(
     return all(0 <= x + i < n and 0 <= y + j < m for x, y in coords)
 
 
-def get_amount(x: T, S: list[set[T]]) -> int:
-    """Computes the amount of appearances of an element in a list of sets."""
-    return len([A for A in S if x in A])
+def reducing_sets(X: set[T], S: list[set[T]]) -> list[set[T]]:
+    """
+    Computes the element x that is the least common element in the
+    sets in S and returns the sets in S that contain x
+    """
+    containment_dict: dict[T, list[set[T]]] = {x: [] for x in X}
+    for A in S:
+        for x in A:
+            containment_dict[x].append(A)
 
-
-def get_least_common(X: set[T], S: list[set[T]]) -> tuple[T, int]:
-    """Computes the least common element in a family of sets."""
-    if len(X) == 0:
-        raise ValueError("The list cannot be empty")
-    least_amount = len(S)
-    element = next(iter(X))
-    for x in X:
-        amount = get_amount(x, S)
-        if least_amount is None or amount < least_amount:
-            least_amount = amount
-            element = x
-    return (element, least_amount)
+    return min(containment_dict.values(), key=len)
