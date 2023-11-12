@@ -82,11 +82,14 @@ def print_tiling_to_console(
             board[y][x] = name
     for row in board:
         print(" ".join(row))
-    print()
 
 
 def print_tilings(n: int, m: int) -> None:
     """Prints each tiling and waits for input to generate the next one"""
+    print("-" * 39)
+    print(f"Pentomino tilings of a {n} x {m} rectangle")
+    print("-" * 39)
+    print("\nPress 'Enter' to always see the next tiling\n")
     for tiling in get_tilings(n, m):
         print_tiling_to_console(n, m, tiling)
         input()
@@ -100,5 +103,5 @@ def save_tilings(n: int, m: int) -> None:
 
 
 if __name__ == "__main__":
-    # print_tilings(4, 15)
-    save_tilings(3, 20)
+    print_tilings(4, 15)
+    # save_tilings(3, 20)
