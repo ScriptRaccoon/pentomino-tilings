@@ -36,8 +36,7 @@ def exactcovers(
     if len(X) == 0:
         yield []
         return
-    containing_sets = utils.reducing_sets(X, S)
-    for A in containing_sets:
+    for A in utils.reducing_sets(X, S):
         Y = X.difference(A)
         F = [B for B in S if A.isdisjoint(B)]
         for cover in exactcovers(Y, F, False):

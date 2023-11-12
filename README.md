@@ -5,4 +5,6 @@ The [pentomino](https://en.wikipedia.org/wiki/Pentomino) tilings of a rectangle,
 -   a Python implementation of this algorithm (see `/scripts`, the results are written to `/public/data`)
 -   a visualization of these made with Svelte, which is deployed at https://pentomino-tilings.netlify.app
 
+The exact cover algorithm in `exactcover.py` may not be optimized, but the code is incredibly short because we use Python sets (not incidence matrices) and generators - we don't need the usual "select and deselect" step.
+
 ![Screenshot](public/screenshot.jpg)
