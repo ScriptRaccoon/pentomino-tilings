@@ -14,6 +14,7 @@
 	let m = 20
 
 	let loading = false
+	let animation_interval: number | null = null
 
 	async function init() {
 		const new_n = selected_n
@@ -50,6 +51,16 @@
 		}
 	}
 
+	function toggle_animation() {
+		if (animation_interval) {
+			clearInterval(animation_interval)
+			animation_interval = null
+		} else {
+			go_right()
+			animation_interval = window.setInterval(go_right, 1000)
+		}
+	}
+
 	onMount(init)
 </script>
 
@@ -80,7 +91,8 @@
 	<menu>
 		<div>
 			<button
-				disabled={!current_tiling}
+				disabled={!current_tiling ||
+					animation_interval != null}
 				on:click={go_left}
 				aria-label="previous"
 			>
@@ -91,7 +103,8 @@
 				/>
 			</button>
 			<button
-				disabled={!current_tiling}
+				disabled={!current_tiling ||
+					animation_interval != null}
 				on:click={go_right}
 				aria-label="next"
 			>
@@ -101,6 +114,13 @@
 					alt="arrow right"
 					aria-hidden="true"
 				/>
+			</button>
+			<button
+				disabled={!current_tiling || loading}
+				on:click={toggle_animation}
+				aria-label="toggle animation"
+			>
+				<img src="play.svg" alt="play" aria-hidden="true" />
 			</button>
 		</div>
 
